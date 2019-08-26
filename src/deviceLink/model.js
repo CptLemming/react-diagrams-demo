@@ -1,6 +1,4 @@
-import {
-	DefaultLinkModel
-} from '@projectstorm/react-diagrams';
+import { DefaultLinkModel } from '@projectstorm/react-diagrams';
 
 class DeviceLinkModel extends DefaultLinkModel {
 	constructor() {

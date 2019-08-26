@@ -5,6 +5,8 @@ import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import DeviceFactory from "./device/factory";
 import DeviceModel from "./device/model";
 import DeviceLinkFactory from "./deviceLink/factory";
+import GroupFactory from "./group/factory";
+import GroupModel from "./group/model";
 
 import './App.css';
 
@@ -18,6 +20,7 @@ const dagreEngine = new DagreEngine({
 
 const engine = createEngine();
 
+engine.getNodeFactories().registerFactory(new GroupFactory());
 engine.getNodeFactories().registerFactory(new DeviceFactory());
 engine.getLinkFactories().registerFactory(new DeviceLinkFactory());
 
@@ -40,6 +43,22 @@ const link1 = node1.getPort('1-out')
 model.addNode(node1);
 model.addNode(node2);
 model.addLink(link1);
+
+const group1 = new GroupModel({ id: '1-group', label: 'Group 1' });
+const node3 = new DeviceModel({ id: '3', manufacturer: 'Type-R', label: 'Calrec Core' });
+const node4 = new DeviceModel({ id: '4', label: 'IO Box' });
+
+group1.addNode(node3);
+group1.addNode(node4);
+
+// const link2 = node1.getPort('1-out')
+//   .link(node3.getPort('3-out'), engine.getLinkFactories().getFactory(PathFindingLinkFactory.NAME));
+// const link3 = node3.getPort('3-out')
+//   .link(node4.getPort('4-out'), engine.getLinkFactories().getFactory(PathFindingLinkFactory.NAME));
+
+model.addNode(group1);
+// model.addLink(link2);
+// model.addLink(link3);
 
 engine.setModel(model);
 
