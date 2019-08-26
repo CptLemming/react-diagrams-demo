@@ -66,12 +66,33 @@ body,
 
 .group-node {
   border-radius: 5px;
-  width: 210px;
-  min-height: 65px;
+  width: 220px;
   display: flex;
   flex-direction: column;
   position: relative;
   justify-content: space-between;
-  background-color: lightblue;
+  background-color: #d3d3d3;
   text-align: center;
+}
+
+.group-node-label {
+  height: 50px;
+  border: none;
+  background: #fff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.group-node-children {
+  display: grid;
+  row-gap: 8px;
+  margin: 8px 3px;
+  justify-content: center;
+}
+
+.group-node-label,
+.device-node-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

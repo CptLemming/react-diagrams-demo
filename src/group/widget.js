@@ -1,14 +1,27 @@
-import React from "react";
-// import { PortWidget } from "@projectstorm/react-diagrams";
+import React, { useState } from "react";
 
-const GroupNodeWidget = props => (
-  <div className="group-node">
-    <div>{props.node.label}</div>
+const GroupNodeWidget = props => {
+  const [isOpen, toggleOpen] = useState(true);
 
-    <div>
+  const handleClick = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    toggleOpen(!isOpen);
+  };
+
+  return (
+    <div className="group-node">
+      <button onClick={handleClick} className="group-node-label">
+        {props.node.label}
+
+        <div>{isOpen ? "-" : "+"}</div>
+      </button>
+
+      {isOpen && <div className="group-node-children">
         {props.children}
+      </div>}
     </div>
-  </div>
-);
+  );
+};
 
 export default GroupNodeWidget;

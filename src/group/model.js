@@ -25,10 +25,16 @@ class GroupNodeModel extends DefaultNodeModel {
 		this.label = ob.label;
     }
 
-    addNode(...node) {
-        this.childNodes.push(...node);
+    addNode(node) {
+        node.setParent(this);
+        this.childNodes.push(node);
+        return node;
     }
-    
+
+    getNodes() {
+        return this.childNodes;
+    }
+
     getPorts() {
         /** update ports data */
         this.ports = this.childNodes.reduce((ports, node) => Object.assign(ports, node.getPorts()), {});
