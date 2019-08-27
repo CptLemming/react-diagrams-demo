@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import createEngine, { DiagramModel, PathFindingLinkFactory } from '@projectstorm/react-diagrams';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 
@@ -61,14 +61,22 @@ model.addLink(link2);
 engine.setModel(model);
 
 const BodyWidget = props => {
-  const doLayout = () => {
+  const doLayout = useCallback(() => {
     dagreEngine.redistribute(props.model);
     props.engine
 			.getLinkFactories()
 			.getFactory(PathFindingLinkFactory.NAME)
 			.calculateRoutingMatrix()
     props.engine.repaintCanvas();
-  };
+  }, [props.engine, props.model]);
+
+  const doAddNode = useCallback(() => {
+    const modelEngine = props.engine.getModel();
+    const newNode = new DeviceModel({ id: String(modelEngine.getNodes().length), label: `Added Core ${modelEngine.getNodes().length}` });
+
+    modelEngine.addNode(newNode);
+    doLayout();
+  }, [props.engine, doLayout]);
 
   useEffect(() => {
     const interval = setTimeout(() => {
@@ -84,6 +92,7 @@ const BodyWidget = props => {
     <div className="app-container">
       <div>
         <button onClick={doLayout}>Do layout</button>
+        <button onClick={doAddNode}>Add Node</button>
       </div>
 
       <CanvasWidget className="diagram-container" engine={props.engine} />
