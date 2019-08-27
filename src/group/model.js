@@ -1,4 +1,4 @@
-import { DefaultNodeModel } from '@projectstorm/react-diagrams';
+import { DefaultNodeModel, DefaultPortModel } from '@projectstorm/react-diagrams';
 
 class GroupNodeModel extends DefaultNodeModel {
     constructor(options = {}) {
@@ -9,6 +9,20 @@ class GroupNodeModel extends DefaultNodeModel {
         this.id = options.id;
         this.label = options.label;
         this.childNodes = [];
+
+		// setup an in and out port
+		this.addPort(
+			new DefaultPortModel({
+				in: true,
+				name: `${this.id}-in`
+			})
+		);
+		this.addPort(
+			new DefaultPortModel({
+				in: false,
+				name: `${this.id}-out`
+			})
+		);
     }
 
 	serialize() {
@@ -35,15 +49,27 @@ class GroupNodeModel extends DefaultNodeModel {
         return this.childNodes;
     }
 
+    rebuildPorts() {
+        const portsIn = {};
+        const portsOut = {};
+
+        this.portsIn.forEach(port => {
+            portsIn[port.getName()] = port;
+        })
+        this.portsOut.forEach(port => {
+            portsOut[port.getName()] = port;
+        });
+
+        this.ports = this.childNodes.reduce((ports, node) => Object.assign(ports, node.getPorts()), Object.assign(portsIn, portsOut, {}));
+    }
+
     getPorts() {
-        /** update ports data */
-        this.ports = this.childNodes.reduce((ports, node) => Object.assign(ports, node.getPorts()), {});
+        this.rebuildPorts();
         return this.ports;
     }
 
     setPosition(x, y) {
-        /** update ports data */
-        this.ports = this.childNodes.reduce((ports, node) => Object.assign(ports, node.getPorts()), {});
+        this.rebuildPorts();
         super.setPosition(x, y);
     }
 }

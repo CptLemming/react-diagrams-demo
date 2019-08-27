@@ -1,6 +1,4 @@
-import {
-	DefaultPortModel
-} from '@projectstorm/react-diagrams';
+import { DefaultPortModel } from '@projectstorm/react-diagrams';
 
 import DeviceLinkModel from "./model";
 

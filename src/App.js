@@ -53,7 +53,7 @@ group1.addNode(node3);
 group1.addNode(node4);
 
 const link2 = node1.getPort('1-out')
-  .link(node3.getPort('3-in'), engine.getLinkFactories().getFactory(PathFindingLinkFactory.NAME));
+  .link(group1.getPort('1-group-in'), engine.getLinkFactories().getFactory(PathFindingLinkFactory.NAME));
 
 model.addNode(group1);
 model.addLink(link2);
